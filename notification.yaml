@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-api
+  labels:
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-api
+  template:
+    metadata:
+      labels:
+        app: notification-api
+        version: v1
+    spec:
+      containers:
+        - name: notification-api
+          image: betamedina/teste-notification:latest
+          ports:
+            - containerPort: 4011
+          env:
+            - name: RABBITMQ_USER
+              value: 'guest'
+            - name: RABBITMQ_PASSWORD
+              value: 'guest'
+            - name: RABBITMQ_VHOST
+              value: 'notification'
+            - name: RABBITMQ_HOST
+              value: '10.97.230.230:5672'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-api-lb
+  labels:
+    app: notification-api-lb
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 4011
+  selector:
+    app: notification-api
