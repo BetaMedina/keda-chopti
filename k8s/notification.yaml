@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: notification-api
-          image: betamedina/teste-notification:latest
+          image: betamedina/notification:latest
           ports:
             - containerPort: 4011
           env:
@@ -28,7 +28,7 @@ spec:
             - name: RABBITMQ_VHOST
               value: 'notification'
             - name: RABBITMQ_HOST
-              value: '10.97.230.230:5672'
+              value: 'amqp://guest:guest@10.109.216.90:5672'
 
 ---
 apiVersion: v1
